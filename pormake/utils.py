@@ -118,7 +118,6 @@ def read_cgd(filename, node_symbol="C", edge_center_symbol="O"):
 
         if tokens[0] != "EDGE_CENTER":
             continue
-
         edge_center_pos = np.array([float(r) for r in tokens[1:]])
         edge_center_positions.append(edge_center_pos)
 
@@ -196,7 +195,7 @@ def read_cgd(filename, node_symbol="C", edge_center_symbol="O"):
     return atoms
 
 
-def read_budiling_block_xyz(bb_file):
+def read_building_block_xyz(bb_file):
     name = Path(bb_file).stem
 
     with open(bb_file, "r") as f:
@@ -207,6 +206,8 @@ def read_budiling_block_xyz(bb_file):
     symbols = []
     positions = []
     connection_point_indices = []
+    secondary_connection_point_indices = []
+
     for i, line in enumerate(lines[2 : n_atoms+2]):
         tokens = line.split()
         symbol = tokens[0]
@@ -216,9 +217,12 @@ def read_budiling_block_xyz(bb_file):
         positions.append(position)
         if symbol == "X":
             connection_point_indices.append(i)
+        elif symbol == "Xx":
+            secondary_connection_point_indices.append(i)
 
     bonds = None
     bond_types = None
+
     if len(lines) > n_atoms+2:
         logger.debug("There are bonds in building block xyz. Reading...")
         bonds = []
@@ -237,8 +241,14 @@ def read_budiling_block_xyz(bb_file):
             bond_types.append(t)
         bonds = np.array(bonds)
 
+
     info = {}
     info["cpi"] = connection_point_indices
+
+    ## save dictionary of primary and secondary connection point indices
+    if len(connection_point_indices) == len(secondary_connection_point_indices):
+        info["scp_dict"] = dict(zip(connection_point_indices, secondary_connection_point_indices))
+
     info["name"] = name
     info["bonds"] = bonds
     info["bond_types"] = bond_types

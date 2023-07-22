@@ -62,7 +62,7 @@ class Framework:
             )
             # Remove invalid cif file.
             logger.error("Remove invalid CIF: %s", path)
-            os.remove(str(path))
+        #    os.remove(str(path))
 
     def _write_cif(self, path):
         stem = path.stem.replace(" ", "_")

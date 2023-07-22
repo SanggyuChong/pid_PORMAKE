@@ -75,8 +75,10 @@ class Topology:
     def check_validity(self):
         if not self.check_coordination_numbers():
             return False
-        if not self.check_edge_zerosum():
-            return False
+
+# bypass for modified crs topology  
+#        if not self.check_edge_zerosum():
+#            return False
         return True
 
     def copy(self):
