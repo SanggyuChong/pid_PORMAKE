@@ -21,3 +21,8 @@ setup(
     python_requires=">=3.7",
     zip_safe=False
 )
+
+# PID: make modifications to the user's ASE package to work with secondary connection points 'Xx'
+import ase, shutil
+data_init = ase.__file__[:-11] + "data/__init__.py"
+shutil.copy("ase_data_init_mod.py", data_init)
