@@ -423,11 +423,14 @@ class Builder:
                     if resid_angle > 45:
                         resid_angle = 90 - resid_angle
 
-                        ## swap Fe with Zn if tetrahedral for relaxation purposes
+                        ## swap Fe with Zn if tetrahedral
                         if edge_bb.name == "Fe_pln":
                             located_edge.atoms[0].symbol = "Zn"
+
                     else:
-                        located_edge.atoms[0].symbol = "Cu"  
+                        ## swap Fe with Cu if planar
+                        if edge_bb.name == "Fe_pln":
+                            located_edge.atoms[0].symbol = "Cu"  
 
                 if resid_angle > max_resid_angle:
                     max_resid_angle = resid_angle
