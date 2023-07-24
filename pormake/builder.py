@@ -565,7 +565,10 @@ class Builder:
         all_bond_types = new_bond_types
 
         del framework_atoms[[a.symbol == "X" for a in framework_atoms]]
+        ## PID: remove secondary connection points
         del framework_atoms[[a.symbol == "Xx" for a in framework_atoms]]
+        ## PID: remove helium atoms used for pseudo edges
+        del framework_atoms[[a.symbol == "He" for a in framework_atoms]]
 
         info = {
             "topology": topology,
