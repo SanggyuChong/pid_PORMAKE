@@ -414,7 +414,7 @@ class Builder:
                 ## define additional local structure which undergoes same normalization as the local structure without the scps
                 target_with_scps = LocalStructure(np.array([r1, r1+d]), [i1, i2], scps=scps)
                 located_edge, rmsd, resid_angle = \
-                    locator.locate_with_permutation_and_planarity_enforcement(target_with_scps, edge_bb, perm)
+                    locator.locate_with_permutation_and_planarity_enforcement(target_with_scps, edge_bb, perm, self.check_tetrahedral)
                 logger.info(f"Edge {e}, RMSD: {rmsd:.2E}, RESIDUAL_ANGLE: {resid_angle:.2E}")
 
                 ## when we allow tetrahedral bonding, check 90 - resid_angle if angle is greater than 45 

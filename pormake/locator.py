@@ -21,6 +21,17 @@ def find_best_orientation(p, q):
     U, rmsd = scipy.spatial.transform.Rotation.align_vectors(p, q)
     return U.as_matrix().T, np.sqrt(np.square(rmsd)/len(p))
 
+def get_rotation_matrix(theta):
+
+
+    costheta = np.cos(np.radians(theta))
+    sintheta = np.sin(np.radians(theta))
+
+    Urot = [[costheta, -sintheta,  0],
+            [sintheta,  costheta,  0],
+            [       0,         0,  1]]
+ 
+    return np.array(Urot)
 
 def get_rotation_matrix_around_zvec(p, q):
 
@@ -154,11 +165,11 @@ class Locator:
 
 
 
-    def locate_with_permutation_and_planarity_enforcement(self, target_with_scps, bb, permutation):
+    def locate_with_permutation_and_planarity_enforcement(self, target_with_scps, bb, permutation, check_tetrahedral):
         """
         Locate bb to target with pre-obtained permutation of bb.
-        This method, specialized for edges, additionally performs rotation of the edge
-        along the edge vector to best match planarity conditions
+        This method, specialized for pi-d conjugated MOFs, additionally performs rotation of the edge
+        along the main axis of the edge to best match the coplanarity condition
         """
         local0 = target_with_scps
         local1 = bb.local_structure(scps=True)
@@ -233,7 +244,7 @@ class Locator:
         #view_int = ase.Atoms('HeC2O2F2', positions = np.concatenate([[[0, 0, 0]], t_coord, t_scps_aligned, e_scps_aligned], axis=0))
         #ase.visualize.view(view_int)
 
-        # perform rotation to choose rotation direction and save residual angle
+        # perform rotation to choose rotation direction and save residual angle on 2nd scp
         e_scp1_rotated1 = np.dot(e_scp1, Urot)
         e_scp1_rotated2 = np.dot(e_scp1, Urot.T)
         e_scp2_rotated1 = np.dot(e_scp2, Urot)
@@ -244,6 +255,7 @@ class Locator:
         resid_angle1 = np.degrees(np.arccos(np.clip(np.dot(t_scp2, e_scp2_rotated1), -1, 1)))
         resid_angle2 = np.degrees(np.arccos(np.clip(np.dot(t_scp2, e_scp2_rotated2), -1, 1)))
  
+        ## keep angles under 90 degrees
         if abs(check_angle1) > 90:
             check_angle1 = 180 - abs(check_angle1)
         if abs(check_angle2) > 90:
@@ -253,11 +265,65 @@ class Locator:
         if abs(resid_angle2) > 90:
             resid_angle2 = 180 - abs(resid_angle2)
 
+        ## choose the rotation direction that succeeds in alignment
         if check_angle1 < check_angle2:
+            e_scp1_rotated = e_scp1_rotated1
+            e_scp2_rotated = e_scp2_rotated1 
+            check_angle = check_angle1
             resid_angle = resid_angle1
         else:
+            e_scp1_rotated = e_scp1_rotated2
+            e_scp2_rotated = e_scp2_rotated2            
+            check_angle = check_angle2
             resid_angle = resid_angle2
             Urot = Urot.T
+
+        ## detect and prevent overfit to one end by rotating back by half of the residual angle
+        ## most of the routine is equivalent to the one above
+        if not check_tetrahedral:
+            angle_thresh_low = 1
+            angle_thresh_high = 30
+        
+            if check_angle < angle_thresh_low and resid_angle > angle_thresh_high:
+                half_angle = resid_angle/2
+            elif check_angle > angle_thresh_high and resid_angle < angle_thresh_low:
+                half_angle = check_angle/2
+            else:
+                half_angle = 0
+
+            Urot_hlf = get_rotation_matrix(half_angle) 
+
+            e_scp1_hlf_rotated1 = np.dot(e_scp1_rotated, Urot_hlf)
+            e_scp2_hlf_rotated1 = np.dot(e_scp2_rotated, Urot_hlf)
+            e_scp1_hlf_rotated2 = np.dot(e_scp1_rotated, Urot_hlf.T)
+            e_scp2_hlf_rotated2 = np.dot(e_scp2_rotated, Urot_hlf.T)
+
+            check_hlf_angle1 = np.degrees(np.arccos(np.clip(np.dot(t_scp1, e_scp1_hlf_rotated1), -1, 1)))            
+            resid_hlf_angle1 = np.degrees(np.arccos(np.clip(np.dot(t_scp2, e_scp2_hlf_rotated1), -1, 1)))
+            check_hlf_angle2 = np.degrees(np.arccos(np.clip(np.dot(t_scp1, e_scp1_hlf_rotated2), -1, 1)))            
+            resid_hlf_angle2 = np.degrees(np.arccos(np.clip(np.dot(t_scp2, e_scp2_hlf_rotated2), -1, 1)))
+
+            ## keep angles under 90 degrees
+            if abs(check_hlf_angle1) > 90:
+                check_hlf_angle1 = 180 - abs(check_hlf_angle1)
+            if abs(resid_hlf_angle1) > 90:
+                resid_hlf_angle1 = 180 - abs(resid_hlf_angle1)
+            if abs(check_hlf_angle2) > 90:
+                check_hlf_angle2 = 180 - abs(check_hlf_angle2)
+            if abs(resid_hlf_angle2) > 90:
+                resid_hlf_angle2 = 180 - abs(resid_hlf_angle2)
+
+            if np.max((check_hlf_angle1, resid_hlf_angle1)) < np.max((check_hlf_angle2, resid_hlf_angle2)):
+                check_hlf_angle = check_hlf_angle1
+                resid_hlf_angle = resid_hlf_angle1
+            else:
+                check_hlf_angle = check_hlf_angle2
+                resid_hlf_angle = resid_hlf_angle2
+                Urot_hlf = Urot_hlf.T
+                
+        else:
+            half_angle = 0
+
 
         # we now align actual building block to z_vec
         positions = bb.atoms.positions
@@ -270,13 +336,23 @@ class Locator:
         # rotation for planarity enforcement
         positions = np.dot(positions, Urot)
 
+        if not check_tetrahedral:
+            # half rotation backwards in cases where overfitting occurred
+            positions = np.dot(positions, Urot_hlf)
+
         # undo z_vec alignment and move it back
         positions = np.dot(positions, Uz.T) + centroid
 
         # save it to the building_block, pass it down to original code
         bb.atoms.set_positions(positions)
 
-        return bb, rmsd_val, resid_angle
+        # track higher value of the two residual angles
+        if half_angle > 0:
+            final_resid_angle = np.max((check_hlf_angle, resid_hlf_angle))
+        else:
+            final_resid_angle = np.max((check_angle, resid_angle))
+
+        return bb, rmsd_val, final_resid_angle
 
     def calculate_rmsd(self, target, bb, max_n_slices=6):
         _, _, rmsd_val = self.locate(target, bb, max_n_slices)
