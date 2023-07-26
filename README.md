@@ -1,7 +1,9 @@
 # pi-d PORMAKE
 **Por**ous materials **Make**r
 
-> Python library for the construction of porous materials using topology and building blocks.
+> Python library for the construction of pi-d conjugated metal-organic frameworks.
+
+All credits to Sangwon Lee for the development of original PORMAKE code. Here, a revised version of PORMAKE is presented with additional features to enforce coplanarity for the edges, which is a common requirement in constructing pi-d conjugated MOFs.
 
 ## Installation
 * Dependencies
