@@ -10,7 +10,7 @@ from .local_structure import LocalStructure
 
 # bb: building block.
 class Builder:
-    def __init__(self, locator=None, scaler=None):
+    def __init__(self, locator=None, scaler=None, planarity_enforcement=False, angle_threshold=90, check_tetrahedral=False):
         if locator is None:
             self.locator = Locator()
         else:
@@ -20,6 +20,10 @@ class Builder:
             self.scaler = Scaler()
         else:
             self.scaler = scaler
+
+        self.planarity_enforcement = planarity_enforcement
+        self.angle_threshold = angle_threshold
+        self.check_tetrahedral = check_tetrahedral
 
     def make_bbs_by_type(self, topology, node_bbs, edge_bbs=None):
         """
@@ -78,6 +82,7 @@ class Builder:
         Return:
             Framework object.
         """
+
 
         # Parse keyword arguments.
         if "accuracy" in kwargs:
@@ -328,44 +333,123 @@ class Builder:
 
             return image
 
-        # Locate edges.
+        # Locate edges. 
         logger.info("Start placing edges.")
         c = topology.atoms.cell
         invc = np.linalg.inv(topology.atoms.cell)
+
+
+        max_resid_angle = 0
+
         for e in topology.edge_indices:
+
             edge_bb = located_bbs[e]
             # Neglect no edge cases.
             if edge_bb is None:
                 continue
 
+            ## obtain neighbor nodes from topology
             n1, n2 = topology.neighbor_list[e]
 
+            ## obtain neighbor node indices
             i1 = n1.index
             i2 = n2.index
 
+            ## identify located node building blocks
             bb1 = located_bbs[i1]
             bb2 = located_bbs[i2]
 
+            ## find connection point indices (TRUE??)
             a1, a2 = find_matched_atom_indices(e)
 
+            ## obtain connection point positions 
             r1 = bb1.atoms.positions[a1]
             r2 = bb2.atoms.positions[a2]
 
+
+            if bb2.name == "Fe_oct" and bb1.name != "Fe_oct":
+                n_ = n1
+                n1 = n2
+                n2 = n_
+
+                i_ = i1
+                i1 = i2
+                i2 = i_
+
+                bb_ = bb1
+                bb1 = bb2
+                bb2 = bb_
+
+                a_ = a1
+                a1 = a2
+                a2 = a_
+
+                r_ = r1
+                r1 = r2
+                r2 = r_
+                permutations[e] = permutations[e][::-1]
+
+
+            ## determine vector between connection points while treating cases across PBC
             image = calc_image(n1, n2, invc)
             d = r2 - r1 + image@c
 
             ## This may outside of the unit cell. Should be changed.
             centroid = r1 + 0.5*d
             perm = permutations[e]
-
+            ## "target" structure consisting of 2 connection points are passed as a local structure.
             target = LocalStructure(np.array([r1, r1+d]), [i1, i2])
-            located_edge, rmsd = \
-                locator.locate_with_permutation(target, edge_bb, perm)
 
+            ## to perform planarity enforcement, here we allow passing of additional local structure with secondary connection points 
+            if self.planarity_enforcement:
+                ## identify the scps of connection points in question
+                ## note 
+                scp1 = bb1.get_raw_scp_position(a1)
+                scp2 = bb2.get_raw_scp_position(a2)
+
+                ## impose PBC between scps as well
+                scp_d = scp2 - scp1 + image@c
+                scps = [scp1, scp1+scp_d]
+
+                ## define additional local structure which undergoes same normalization as the local structure without the scps
+                target_with_scps = LocalStructure(np.array([r1, r1+d]), [i1, i2], scps=scps)
+                located_edge, rmsd, resid_angle = \
+                    locator.locate_with_permutation_and_planarity_enforcement(target_with_scps, edge_bb, perm, self.check_tetrahedral)
+                logger.info(f"Edge {e}, RMSD: {rmsd:.2E}, RESIDUAL_ANGLE: {resid_angle:.2E}")
+
+                ## when we allow tetrahedral bonding, check 90 - resid_angle if angle is greater than 45 
+                if self.check_tetrahedral:
+
+                    if resid_angle > 45:
+                        resid_angle = 90 - resid_angle
+
+                        ## swap Fe with Zn if tetrahedral
+                        if edge_bb.name == "Fe_pln":
+                            located_edge.atoms[0].symbol = "Zn"
+
+                    else:
+                        ## swap Fe with Cu if planar
+                        if edge_bb.name == "Fe_pln":
+                            located_edge.atoms[0].symbol = "Cu"  
+
+                if resid_angle > max_resid_angle:
+                    max_resid_angle = resid_angle
+            
+            else:
+                located_edge, rmsd = \
+                    locator.locate_with_permutation(target, edge_bb, perm)
+                logger.debug(f"Edge {e}, RMSD: {rmsd:.2E}")
+
+            ## edge moved to the connection point
             located_edge.set_centroid(centroid)
+
+            ## edge saved
             located_bbs[e] = located_edge
 
-            logger.debug(f"Edge {e}, RMSD: {rmsd:.2E}")
+
+        if max_resid_angle > self.angle_threshold:
+            raise Exception("Residual angle too severe! MOF construction terminated.")
+
 
         logger.info("Start finding bonds in generated framework.")
         logger.info("Start finding bonds in building blocks.")
@@ -444,7 +528,7 @@ class Builder:
         count = 0
         new_indices = {}
         for a in framework_atoms:
-            if a.symbol == "X":
+            if a.symbol == "X" or a.symbol == "Xx":
                 continue
             new_indices[a.index] = count
             count += 1
@@ -481,6 +565,10 @@ class Builder:
         all_bond_types = new_bond_types
 
         del framework_atoms[[a.symbol == "X" for a in framework_atoms]]
+        ## PID: remove secondary connection points
+        del framework_atoms[[a.symbol == "Xx" for a in framework_atoms]]
+        ## PID: remove helium atoms used for pseudo edges
+        del framework_atoms[[a.symbol == "He" for a in framework_atoms]]
 
         info = {
             "topology": topology,
@@ -506,3 +594,139 @@ class Builder:
         logger.info("Construction of framework done.")
 
         return framework
+
+    def extract_permutation(self, topology, node_bbs, edge_bbs=None, **kwargs):
+
+        bbs = self.make_bbs_by_type(topology, node_bbs, edge_bbs)
+        """
+        Same as the build function, but separately defined to extract permuatation 
+
+        Args:
+            topology:
+
+            bbs: a list like obejct containing building blocks.
+                bbs[i] contains a bb for node[i] if i in topology.node_indices
+                or edge[i] if i in topology.edge_indices.
+
+            permutations:
+
+        Return:
+            permutation dictionary
+        """
+
+        # Parse keyword arguments.
+        if "accuracy" in kwargs:
+            max_n_slices = kwargs["accuracy"]
+        else:
+            max_n_slices = 6
+
+        # Empty dictionary.
+        permutations = {}
+
+        logger.debug("Permutation extractor starts.")
+
+        # locator for bb locations.
+        locator = self.locator
+
+        _permutations = [None for _ in range(topology.n_slots)]
+        for i, perm in permutations.items():
+            _permutations[i] = np.array(perm)
+        permutations = _permutations
+
+        slot_min_rmsd = defaultdict(lambda: -1.0)
+
+        # Locate nodes.
+        for i in topology.node_indices:
+            # Get bb.
+            node_bb = bbs[i]
+            # Get target.
+            target = topology.local_structure(i)
+
+            t = topology.get_node_type(i)
+            # Calculate minimum RMSD of the slot.
+            key = (t, node_bb.name)
+            if slot_min_rmsd[key] < 0.0:
+                rmsd = locator.calculate_rmsd(
+                           target, node_bb, max_n_slices=max_n_slices)
+
+                chiral_node_bb = node_bb.make_chiral_building_block()
+                c_rmsd = locator.calculate_rmsd(target, chiral_node_bb)
+                slot_min_rmsd[key] = min(rmsd, c_rmsd)
+                logger.info(
+                    "== Min RMSD of (node type: %s, node bb: %s): %.2E",
+                    *key, slot_min_rmsd[key]
+                )
+            # Only orientation.
+            # Translations are applied after topology relexation.
+            located_node, perm, rmsd = locator.locate(target, node_bb)
+            logger.info(
+                "Pre-location at node slot %d"
+                ", (node type: %s, node bb: %s)"
+                ", RMSD: %.2E",
+                i, *key, rmsd,
+            )
+            # If RMSD is different from min RMSD relocate with high accuracy.
+            # 1% error.
+            ratio = rmsd / slot_min_rmsd[key]
+            if ratio > 1.01:
+                located_node, perm, rmsd = \
+                    locator.locate(target, node_bb, max_n_slices=max_n_slices)
+                logger.info(
+                    "RMSD > MIN_RMSD*1.01, relocate Node %d"
+                    " with %d trial orientations, RMSD: %.2E",
+                    i, max_n_slices**3, rmsd
+                )
+
+            ratio = rmsd / slot_min_rmsd[key]
+            if ratio > 1.01:
+                # Make chiral building block.
+                node_bb = node_bb.make_chiral_building_block()
+                located_node, perm, rmsd = \
+                    locator.locate(target, node_bb, max_n_slices=max_n_slices)
+                logger.info(
+                    "RMSD > MIN_RMSD*1.01, relocate Node %d"
+                    " with %d trial orientations and chiral building block"
+                    ", RMSD: %.2E",
+                    i, max_n_slices**3, rmsd
+                )
+
+            # Critical error.
+            if (ratio < 0.99) and (slot_min_rmsd[key] > 1e-3):
+                message = (
+                    "MIN_RMSD is not collect. "
+                    "Topology: %s; "
+                    "Slot: %s; "
+                    "Building block: %s; "
+                    "rmsd: %.3E." % (topology, key, node_bb, rmsd)
+                )
+                logger.error(message)
+                raise Exception(message)
+
+            permutations[i] = perm
+
+        # Just append edges to the buidiling block slots.
+        # There is no location in this stage.
+        # This information is used in the scaling of topology.
+        # All permutations are set to [0, 1] because the edges does not need
+        # any permutation estimations for the locations.
+        for e in topology.edge_indices:
+            edge_bb = bbs[e]
+
+            if edge_bb is None:
+                continue
+
+            n1, n2 = topology.neighbor_list[e]
+
+            i1 = n1.index
+            i2 = n2.index
+
+            if topology.node_types[i1] <= topology.node_types[i2]:
+                perm = [0, 1]
+            else:
+                perm = [1, 0]
+
+            permutations[e] = np.array(perm)
+
+        return permutations
+
+

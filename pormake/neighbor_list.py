@@ -34,7 +34,7 @@ class NeighborList:
         cutoffs = {
             ("C", "C"): 0.0,
             ("O", "O"): 0.0,
-            ("C", "O"): 0.5+eps,
+            ("C", "O"): 0.6+eps,
         }
 
         I, J, D = ase.neighborlist.neighbor_list("ijD", atoms, cutoff=cutoffs)

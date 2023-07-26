@@ -12,7 +12,7 @@ except Exception as e:
 
 from .log import logger
 from .utils import (
-    read_budiling_block_xyz,
+    read_building_block_xyz,
     covalent_neighbor_list,
     write_molecule_cif,
     METAL_LIKE,
@@ -21,7 +21,7 @@ from .local_structure import LocalStructure
 
 class BuildingBlock:
     def __init__(self, bb_file, local_structure_func=None):
-        self.atoms = read_budiling_block_xyz(bb_file)
+        self.atoms = read_building_block_xyz(bb_file)
         self.name = self.atoms.info["name"]
         self.connection_point_indices = np.array(self.atoms.info["cpi"])
         self._bonds = self.atoms.info["bonds"]
@@ -39,9 +39,20 @@ class BuildingBlock:
         _bb.atoms.set_positions(-_bb.atoms.get_positions())
         return _bb
 
-    def local_structure(self):
+    def local_structure(self, scps=False):
         connection_points = self.atoms[self.connection_point_indices].positions
-        return LocalStructure(
+
+        if scps:
+            scps = [self.get_raw_scp_position(idx) for idx in self.connection_point_indices]
+            return LocalStructure(
+                   connection_points,
+                   self.connection_point_indices,
+                   normalization_func=self.local_structure_func,
+                   scps=scps
+               )
+
+        else: 
+            return LocalStructure(
                    connection_points,
                    self.connection_point_indices,
                    normalization_func=self.local_structure_func
@@ -119,6 +130,10 @@ class BuildingBlock:
     @property
     def n_atoms(self):
         return len(self.atoms)
+
+    ## if requested, get the position of the secondary connection point index that corresponds to the primary connection point index 
+    def get_raw_scp_position(self, pcpi):
+        return self.atoms.get_positions()[self.atoms.info["scp_dict"][pcpi]]
 
     def check_bonds(self):
         if self._bonds is None:
