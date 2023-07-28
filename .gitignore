@@ -1,5 +1,4 @@
 *__pycache__
-*.cif
 build
 dist
 *.egg-*
