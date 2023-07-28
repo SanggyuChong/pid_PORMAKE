@@ -2,12 +2,11 @@
 
 Python library for the construction of π-d conjugated metal-organic frameworks.
 
-All credits to [Sangwon Lee](https://github.com/Sangwon91) for the development of the original [PORMAKE](https://github.com/Sangwon91/PORMAKE) code. [\[1\]](https://pubs.acs.org/doi/full/10.1021/acsami.1c02471) 
+All credits to [Sangwon Lee](https://github.com/Sangwon91) for the development of the original [PORMAKE](https://github.com/Sangwon91/PORMAKE) code.
 
 This repository contains a revised version of PORMAKE with additional features to enforce co-planarity in placing the edges of the framework material, which is a common requirement in constructing π-d conjugated MOFs that can exhibit electrical conductivity.
 
-Interested users are kindly asked to refer to the tutorials available in the original PORMAKE repository. For example cases in which planarity enforcement is performed for the construction of π-d conjugated frameworks (and also sample building block files prepared for the planarity enforcement), several Jupyter notebooks are available in the `notebooks` directory.
-
+Interested users are kindly asked to refer to the tutorials available in the original PORMAKE repository. For example cases in which planarity enforcement is performed for the construction of π-d conjugated frameworks (and also sample building block files prepared for the planarity enforcement), several Jupyter notebooks and building block `.xyz` files are available in the `notebooks` directory.
 
 
 ## Installation
