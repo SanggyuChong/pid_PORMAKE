@@ -1,0 +1,81 @@
+data_nod-B_O-Feoct
+_audit_creation_date              2021-11-06
+_audit_creation_method            'Materials Studio'
+_symmetry_space_group_name_H-M    'CCCM'
+_symmetry_Int_Tables_number       66
+_symmetry_cell_setting            orthorhombic
+loop_
+_symmetry_equiv_pos_as_xyz
+  x,y,z
+  -x,-y,z
+  -x,y,-z+1/2
+  x,-y,-z+1/2
+  -x,-y,-z
+  x,y,-z
+  x,-y,z+1/2
+  -x,y,z+1/2
+  x+1/2,y+1/2,z
+  -x+1/2,-y+1/2,z
+  -x+1/2,y+1/2,-z+1/2
+  x+1/2,-y+1/2,-z+1/2
+  -x+1/2,-y+1/2,-z
+  x+1/2,y+1/2,-z
+  x+1/2,-y+1/2,z+1/2
+  -x+1/2,y+1/2,z+1/2
+_cell_length_a                    24.1757
+_cell_length_b                    9.3835
+_cell_length_c                    22.7094
+_cell_angle_alpha                 90.0000
+_cell_angle_beta                  90.0000
+_cell_angle_gamma                 90.0000
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_U_iso_or_equiv
+_atom_site_adp_type
+_atom_site_occupancy
+C1     C     0.27265   0.20428   0.11035   0.00000  Uiso   1.00
+C2     C     0.29506   0.15435   0.16370   0.00000  Uiso   1.00
+C3     C     0.27091   0.19946   0.21597   0.00000  Uiso   1.00
+O1     O     0.29229   0.16429   0.05573   0.00000  Uiso   1.00
+O2     O     0.33994   0.06035   0.16768   0.00000  Uiso   1.00
+O3     O     0.28808   0.13961   0.26811   0.00000  Uiso   1.00
+C50    C     0.45029   0.92637   0.24613   0.00000  Uiso   1.00
+O49    O     0.40005   0.85986   0.23531   0.00000  Uiso   1.00
+Fe1    Fe    0.34307  -0.00000   0.25000   0.00000  Uiso   1.00
+C49    C     0.50000   0.85024   0.25000   0.00000  Uiso   1.00
+H1     H     0.50000   0.73489   0.25000   0.00000  Uiso   1.00
+Fe9    Cu    0.25000   0.25000   1.00000   0.00000  Uiso   1.00
+loop_
+_geom_bond_atom_site_label_1
+_geom_bond_atom_site_label_2
+_geom_bond_distance
+_geom_bond_site_symmetry_2
+_ccdc_geom_bond_type
+C1     C2      1.408   .     A
+C1     C1      1.391   10    A
+C1     O1      1.380   .     S
+C2     C3      1.389   .     A
+C2     O2      1.401   .     S
+C3     C3      1.386   10    A
+C3     O3      1.375   .     S
+O1     Fe9     1.815   1_554 S
+O2     Fe1     1.955   .     S
+O3     Fe1     1.911   .     S
+C50    C49     1.401   .     A
+C50    C50     1.393   4_575 A
+C50    O49     1.387   .     S
+O49    Fe1     1.933   1_565 S
+Fe1    O2      1.955   4     S
+Fe1    O3      1.911   4     S
+Fe1    O49     1.933   1_545 S
+Fe1    O49     1.933   4_565 S
+C49    C50     1.401   3_655 A
+C49    H1      1.082   .     S
+Fe9    O1      1.815   6_556 S
+Fe9    O1      1.815   1_556 S
+Fe9    O1      1.815   13_556 S
+Fe9    O1      1.815   10_556 S

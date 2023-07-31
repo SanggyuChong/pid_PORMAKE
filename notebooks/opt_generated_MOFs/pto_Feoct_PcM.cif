@@ -1,0 +1,113 @@
+data_pto-PcM_O-Feoct
+_audit_creation_date              2021-11-06
+_audit_creation_method            'Materials Studio'
+_symmetry_space_group_name_H-M    'PM-3N'
+_symmetry_Int_Tables_number       223
+_symmetry_cell_setting            cubic
+loop_
+_symmetry_equiv_pos_as_xyz
+  x,y,z
+  -x,-y,z
+  -x,y,-z
+  x,-y,-z
+  z,x,y
+  z,-x,-y
+  -z,-x,y
+  -z,x,-y
+  y,z,x
+  -y,z,-x
+  y,-z,-x
+  -y,-z,x
+  y+1/2,x+1/2,-z+1/2
+  -y+1/2,-x+1/2,-z+1/2
+  y+1/2,-x+1/2,z+1/2
+  -y+1/2,x+1/2,z+1/2
+  x+1/2,z+1/2,-y+1/2
+  -x+1/2,z+1/2,y+1/2
+  -x+1/2,-z+1/2,-y+1/2
+  x+1/2,-z+1/2,y+1/2
+  z+1/2,y+1/2,-x+1/2
+  z+1/2,-y+1/2,x+1/2
+  -z+1/2,y+1/2,x+1/2
+  -z+1/2,-y+1/2,-x+1/2
+  -x,-y,-z
+  x,y,-z
+  x,-y,z
+  -x,y,z
+  -z,-x,-y
+  -z,x,y
+  z,x,-y
+  z,-x,y
+  -y,-z,-x
+  y,-z,x
+  -y,z,x
+  y,z,-x
+  -y+1/2,-x+1/2,z+1/2
+  y+1/2,x+1/2,z+1/2
+  -y+1/2,x+1/2,-z+1/2
+  y+1/2,-x+1/2,-z+1/2
+  -x+1/2,-z+1/2,y+1/2
+  x+1/2,-z+1/2,-y+1/2
+  x+1/2,z+1/2,y+1/2
+  -x+1/2,z+1/2,-y+1/2
+  -z+1/2,-y+1/2,x+1/2
+  -z+1/2,y+1/2,-x+1/2
+  z+1/2,-y+1/2,-x+1/2
+  z+1/2,y+1/2,x+1/2
+_cell_length_a                    25.6007
+_cell_length_b                    25.6007
+_cell_length_c                    25.6007
+_cell_angle_alpha                 90.0000
+_cell_angle_beta                  90.0000
+_cell_angle_gamma                 90.0000
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_U_iso_or_equiv
+_atom_site_adp_type
+_atom_site_occupancy
+C1     C     0.81598   0.39448   0.25002   0.00000  Uiso   1.00
+C2     C     0.80238   0.34126   0.25002   0.00000  Uiso   1.00
+C5     C     0.90674   0.36915   0.24999   0.00000  Uiso   1.00
+C7     C     0.89491   0.45393   0.25001   0.00000  Uiso   1.00
+H1     H     0.78639   0.42469   0.25004   0.00000  Uiso   1.00
+O1     O     0.75053   0.32551   0.25006   0.00000  Uiso   1.00
+Fe1    Fe    0.25000   0.25000   0.25000   0.00000  Uiso   1.00
+N1     N     0.94765   0.44765   0.25000   0.00000  Uiso   1.00
+N2     N    -0.00000   0.37022   0.24998   0.00000  Uiso   1.00
+Fe9    Ni    0.00000   0.50000   0.25000   0.00000  Uiso   1.00
+loop_
+_geom_bond_atom_site_label_1
+_geom_bond_atom_site_label_2
+_geom_bond_distance
+_geom_bond_site_symmetry_2
+_ccdc_geom_bond_type
+C1     C2      1.407   .     A
+C1     C5      1.397   13_545 A
+C1     H1      1.083   .     S
+C2     C2      1.408   13_545 A
+C2     O1      1.387   .     S
+C5     C1      1.397   13_545 A
+C5     C5      1.361   13_545 A
+C5     C7      1.376   13_545 A
+C7     C5      1.376   13_545 A
+C7     N1      1.360   .     A
+C7     N2      1.338   13    A
+O1     Fe1     1.933   28_655 S
+Fe1    O1      1.933   39_545 S
+Fe1    O1      1.933   45_554 S
+Fe1    O1      1.933   42_455 S
+Fe1    O1      1.933   28_655 S
+Fe1    O1      1.933   36_556 S
+Fe1    O1      1.933   32_565 S
+N1     C7      1.360   13_545 A
+N1     Fe9     1.895   1_655 S
+N2     C7      1.338   13_445 A
+N2     C7      1.338   39_545 A
+Fe9    N1      1.895   28_655 S
+Fe9    N1      1.895   27_465 S
+Fe9    N1      1.895   2_665 S
+Fe9    N1      1.895   1_455 S

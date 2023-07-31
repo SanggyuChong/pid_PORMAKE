@@ -1,0 +1,122 @@
+data_jph-PcM_O-Feoct
+_audit_creation_date              2021-11-06
+_audit_creation_method            'Materials Studio'
+_symmetry_space_group_name_H-M    'IMMA'
+_symmetry_Int_Tables_number       74
+_symmetry_cell_setting            orthorhombic
+loop_
+_symmetry_equiv_pos_as_xyz
+  x,y,z
+  -x,-y+1/2,z
+  -x,y+1/2,-z
+  x,-y,-z
+  -x,-y,-z
+  x,y+1/2,-z
+  x,-y+1/2,z
+  -x,y,z
+  x+1/2,y+1/2,z+1/2
+  -x+1/2,-y,z+1/2
+  -x+1/2,y,-z+1/2
+  x+1/2,-y+1/2,-z+1/2
+  -x+1/2,-y+1/2,-z+1/2
+  x+1/2,y,-z+1/2
+  x+1/2,-y,z+1/2
+  -x+1/2,y+1/2,z+1/2
+_cell_length_a                    36.3754
+_cell_length_b                    36.3754
+_cell_length_c                    21.5223
+_cell_angle_alpha                 90.0000
+_cell_angle_beta                  90.0000
+_cell_angle_gamma                 90.0000
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_U_iso_or_equiv
+_atom_site_adp_type
+_atom_site_occupancy
+Fe1    Fe    0.67595   0.57405   0.12500   0.00000  Uiso   1.00
+C1     C     0.62951   0.82426   0.12493   0.00000  Uiso   1.00
+C2     C     0.63909   0.86173   0.12495   0.00000  Uiso   1.00
+C3     C     0.61173   0.88909   0.12504   0.00000  Uiso   1.00
+C4     C     0.57426   0.87951   0.12507   0.00000  Uiso   1.00
+C5     C     0.56563   0.84210   0.12503   0.00000  Uiso   1.00
+C6     C     0.59210   0.81563   0.12497   0.00000  Uiso   1.00
+C7     C     0.57396   0.78242   0.12495   0.00000  Uiso   1.00
+N1     N     0.53685   0.78685   0.12500   0.00000  Uiso   1.00
+C8     C     0.53242   0.82396   0.12505   0.00000  Uiso   1.00
+H1     H     0.65034   0.80301   0.12487   0.00000  Uiso   1.00
+O1     O     0.67558   0.87281   0.12488   0.00000  Uiso   1.00
+O2     O     0.62281   0.92558   0.12512   0.00000  Uiso   1.00
+H2     H     0.55301   0.90034   0.12513   0.00000  Uiso   1.00
+C129   C     0.67593   0.52731   0.95379   0.00000  Uiso   1.00
+C130   C     0.67593   0.53704   0.01669   0.00000  Uiso   1.00
+C131   C     0.67592   0.50992   0.06259   0.00000  Uiso   1.00
+H33    H     0.67593   0.54834   0.91821   0.00000  Uiso   1.00
+O33    O     0.67596   0.57358   0.03522   0.00000  Uiso   1.00
+O34    O     0.67591   0.52093   0.12432   0.00000  Uiso   1.00
+C135   C     1.22269   0.92593   0.20380   0.00000  Uiso   1.00
+C136   C     1.25992   0.92592   0.18741   0.00000  Uiso   1.00
+C137   C     1.28704   0.92593   0.23331   0.00000  Uiso   1.00
+H35    H     1.20166   0.92593   0.16821   0.00000  Uiso   1.00
+O37    O     1.27093   0.92591   0.12568   0.00000  Uiso   1.00
+O38    O     1.32358   0.92596   0.21478   0.00000  Uiso   1.00
+N2     N     0.50000   0.84134   0.12507   0.00000  Uiso   1.00
+N5     N     1.40866   0.75000   0.12492   0.00000  Uiso   1.00
+Fe17   Ni    0.50000   0.75000   0.12500   0.00000  Uiso   1.00
+loop_
+_geom_bond_atom_site_label_1
+_geom_bond_atom_site_label_2
+_geom_bond_distance
+_geom_bond_site_symmetry_2
+_ccdc_geom_bond_type
+Fe1    O1      1.933   7_565 S
+Fe1    O2      1.933   7_565 S
+Fe1    O33     1.932   .     S
+Fe1    O34     1.932   .     S
+Fe1    O37     1.932   2_765 S
+Fe1    O38     1.932   2_765 S
+C1     C2      1.407   .     A
+C1     C6      1.397   .     A
+C1     H1      1.083   .     S
+C2     C3      1.408   .     A
+C2     O1      1.387   .     S
+C3     C4      1.407   .     A
+C3     O2      1.387   .     S
+C4     C5      1.397   .     A
+C4     H2      1.083   .     S
+C5     C6      1.361   .     A
+C5     C8      1.376   .     A
+C6     C7      1.376   .     A
+C7     N1      1.360   .     A
+C7     N5      1.338   2_765 A
+N1     C8      1.360   .     A
+N1     Fe17    1.895   .     S
+C8     N2      1.338   .     A
+O1     Fe1     1.933   7_565 S
+O2     Fe1     1.933   7_565 S
+C129   C130    1.399   1_556 A
+C129   C131    1.399   4_566 A
+C129   H33     1.083   .     S
+C130   C129    1.399   1_554 A
+C130   C131    1.396   .     A
+C130   O33     1.388   .     S
+C131   C129    1.399   4_566 A
+C131   O34     1.388   .     S
+C135   C136    1.399   .     A
+C135   C137    1.399   11_755 A
+C135   H35     1.083   .     S
+C136   C137    1.396   .     A
+C136   O37     1.388   .     S
+C137   C135    1.399   11_755 A
+C137   O38     1.388   .     S
+O37    Fe1     1.932   2_765 S
+O38    Fe1     1.932   2_765 S
+N2     C8      1.338   8_655 A
+N5     C7      1.338   2_765 A
+N5     C7      1.338   8_755 A
+Fe17   N1      1.895   7_565 S
+Fe17   N1      1.895   8_655 S
+Fe17   N1      1.895   2_665 S

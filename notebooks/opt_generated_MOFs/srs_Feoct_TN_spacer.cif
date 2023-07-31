@@ -1,0 +1,101 @@
+data_srs-spacer-TN_O-Feoct
+_audit_creation_date              2021-11-06
+_audit_creation_method            'Materials Studio'
+_symmetry_space_group_name_H-M    'P4332'
+_symmetry_Int_Tables_number       212
+_symmetry_cell_setting            cubic
+loop_
+_symmetry_equiv_pos_as_xyz
+  x,y,z
+  -x+1/2,-y,z+1/2
+  -x,y+1/2,-z+1/2
+  x+1/2,-y+1/2,-z
+  z,x,y
+  z+1/2,-x+1/2,-y
+  -z+1/2,-x,y+1/2
+  -z,x+1/2,-y+1/2
+  y,z,x
+  -y,z+1/2,-x+1/2
+  y+1/2,-z+1/2,-x
+  -y+1/2,-z,x+1/2
+  y+1/4,x+3/4,-z+3/4
+  -y+1/4,-x+1/4,-z+1/4
+  y+3/4,-x+3/4,z+1/4
+  -y+3/4,x+1/4,z+3/4
+  x+1/4,z+3/4,-y+3/4
+  -x+3/4,z+1/4,y+3/4
+  -x+1/4,-z+1/4,-y+1/4
+  x+3/4,-z+3/4,y+1/4
+  z+1/4,y+3/4,-x+3/4
+  z+3/4,-y+3/4,x+1/4
+  -z+3/4,y+1/4,x+3/4
+  -z+1/4,-y+1/4,-x+1/4
+_cell_length_a                    45.6290
+_cell_length_b                    45.6290
+_cell_length_c                    45.6290
+_cell_angle_alpha                 90.0000
+_cell_angle_beta                  90.0000
+_cell_angle_gamma                 90.0000
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_U_iso_or_equiv
+_atom_site_adp_type
+_atom_site_occupancy
+C1     C     0.11194   0.11193   0.15015   0.00000  Uiso   1.00
+C7     C     0.15313   0.15192   0.07642   0.00000  Uiso   1.00
+C8     C     0.17733   0.13884   0.06299   0.00000  Uiso   1.00
+C19    C     0.05811   0.21035   0.09716   0.00000  Uiso   1.00
+C20    C     0.03468   0.22405   0.11128   0.00000  Uiso   1.00
+H1     H     0.14697   0.17336   0.06859   0.00000  Uiso   1.00
+H7     H     0.06493   0.21795   0.07572   0.00000  Uiso   1.00
+O1     O     0.01912   0.24690   0.09896   0.00000  Uiso   1.00
+C121   C     0.13935   0.91149   0.33092   0.00000  Uiso   1.00
+C123   C     0.09628   0.94193   0.32388   0.00000  Uiso   1.00
+C124   C     0.11102   0.95663   0.30137   0.00000  Uiso   1.00
+O25    O     0.15296   0.88924   0.34655   0.00000  Uiso   1.00
+H49    H     0.07417   0.94811   0.32988   0.00000  Uiso   1.00
+O27    O     0.09880   0.97962   0.28594   0.00000  Uiso   1.00
+Fe1    Fe    0.12500   0.87500   0.37500   0.00000  Uiso   1.00
+Fe5    Cu    0.12500   0.99147   0.25853   0.00000  Uiso   1.00
+loop_
+_geom_bond_atom_site_label_1
+_geom_bond_atom_site_label_2
+_geom_bond_distance
+_geom_bond_site_symmetry_2
+_ccdc_geom_bond_type
+C1     C1      1.424   19    A
+C1     C1      1.425   24    A
+C1     C7      1.420   14    A
+C7     C1      1.420   14    A
+C7     C8      1.397   .     A
+C7     H1      1.078   .     S
+C8     C8      1.409   24    A
+C8     C19     1.409   19    A
+C19    C8      1.409   19    A
+C19    C20     1.396   .     A
+C19    H7      1.084   .     S
+C20    C20     1.372   14    A
+C20    O1      1.381   .     S
+O1     Fe5     1.812   9_455 S
+C121   C121    1.398   19_566 A
+C121   C123    1.401   19_566 A
+C121   O25     1.387   .     S
+C123   C121    1.401   19_566 A
+C123   C124    1.399   .     A
+C123   H49     1.082   .     S
+C124   C124    1.377   19_566 A
+C124   O27     1.381   .     S
+O25    Fe1     1.933   .     S
+O27    Fe5     1.813   .     S
+Fe1    O25     1.933   7_564 S
+Fe1    O25     1.933   10_655 S
+Fe1    O25     1.933   13_455 S
+Fe1    O25     1.933   19_566 S
+Fe1    O25     1.933   22_465 S
+Fe5    O1      1.812   5_565 S
+Fe5    O1      1.812   24_565 S
+Fe5    O27     1.813   19_566 S
