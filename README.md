@@ -1,6 +1,6 @@
 # π-d PORMAKE
 
-Python library for the construction of π-d conjugated metal-organic frameworks. Preprint for the associated work found [here](https://doi.org/10.26434/chemrxiv-2024-kzdm3)
+Python library for the construction of π-d conjugated metal-organic frameworks. Preprint for the associated work found [here](https://doi.org/10.26434/chemrxiv-2024-kzdm3).
 
 All credits to [Sangwon Lee](https://github.com/Sangwon91) for the development of the original [PORMAKE](https://github.com/Sangwon91/PORMAKE) code.
 
